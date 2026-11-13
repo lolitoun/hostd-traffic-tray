@@ -11,7 +11,7 @@
 # =============================================================================
 
 param(
-  [switch]$HideConsole,   # hide this script's own console window (used by the .bat)
+  [switch]$HideConsole,   # always hide this script's console window (used by the .bat)
   [switch]$TestRender     # save sample icons as PNG and exit (no hostd needed)
 )
 
@@ -34,12 +34,19 @@ Add-Type -Namespace HostdTraffic -Name Native -MemberDefinition @'
 [DllImport("user32.dll")] public static extern bool DestroyIcon(IntPtr h);
 [DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr h, int cmd);
 [DllImport("kernel32.dll")] public static extern IntPtr GetConsoleWindow();
+[DllImport("kernel32.dll")] public static extern uint GetConsoleProcessList(uint[] list, uint count);
 '@
 
-# Hide our own console only when asked (never a terminal you opened yourself).
-if ($HideConsole) {
-  $console = [HostdTraffic.Native]::GetConsoleWindow()
-  if ($console -ne [IntPtr]::Zero) { [HostdTraffic.Native]::ShowWindow($console, 0) | Out-Null }
+# Hide the console window when it was opened just for this script (.bat, or
+# right-click > Run with PowerShell): PowerShell was started with arguments to run
+# it (no -NoExit), and no other process uses that window. A PowerShell window or
+# terminal you opened yourself stays visible.
+$console = [HostdTraffic.Native]::GetConsoleWindow()
+$consoleUsers = [HostdTraffic.Native]::GetConsoleProcessList((New-Object UInt32[] 8), 8)
+$psArgs = @([Environment]::GetCommandLineArgs() | Select-Object -Skip 1)
+$startedForScript = ($psArgs.Count -gt 0) -and -not ($psArgs -match '^[-/]noe')
+if ($console -ne [IntPtr]::Zero -and ($HideConsole -or ($consoleUsers -eq 1 -and $startedForScript))) {
+  [HostdTraffic.Native]::ShowWindow($console, 0) | Out-Null
 }
 
 # --- UI strings ---

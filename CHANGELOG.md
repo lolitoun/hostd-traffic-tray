@@ -21,8 +21,9 @@ MAJOR.MINOR.PATCH (breaking change . new feature . bug fix).
 - **Script in English only**, with a short header (the details are in the READMEs). Settings renamed:
   `$api` → `$Api`, `$intervalle` → `$Interval`, `$Langue` → `$Language`; the test switch `-TestRendu`
   → `-TestRender`. The French UI (`$Language = 'fr'`) is unchanged.
-- README: two ways to start, **right-click → Run with PowerShell** (no `.bat` needed, with help when
-  the menu entry is missing) or the `.bat`.
+- **Two ways to start**: **right-click → Run with PowerShell** (no `.bat` needed) or the `.bat`. In both
+  cases the script hides its console window when that window was opened just for it; a PowerShell
+  window you opened yourself stays visible. The README helps when the menu entry is missing.
 
 ### Docs
 - README: new *Known limitations* items about antivirus quarantine (0-byte, undeletable files) and

@@ -77,8 +77,8 @@ signalés.
 - **Le script n'est pas signé numériquement.** Un certificat « maison » ne serait reconnu que sur le PC
   de l'auteur, et un certificat public coûte de l'argent chaque année. À la place, le code est court et
   lisible : n'hésitez pas à le relire.
-- **Windows Terminal.** Si Windows Terminal est le terminal par défaut, le `.bat` peut laisser une
-  fenêtre PowerShell réduite dans la barre des tâches. La laisser : la fermer ferme aussi les icônes.
+- **Windows Terminal.** Si Windows Terminal est le terminal par défaut, une fenêtre PowerShell peut
+  rester dans la barre des tâches. La réduire et la laisser là. La laisser : la fermer ferme aussi les icônes.
 
 ## Prérequis
 
@@ -98,14 +98,15 @@ signalés.
      (ou maintenir **Maj** pendant le clic droit).
    - Si PowerShell demande de modifier la *stratégie d'exécution*, taper `O` (ou `Y` sur un Windows en
      anglais) puis Entrée : cela ne vaut que pour cette fenêtre.
-   - Une fenêtre PowerShell reste ouverte : **la réduire, sans la fermer** (la fermer ferme aussi les
-     icônes).
+   - Une fenêtre PowerShell apparaît un instant, puis se cache toute seule : seules les deux icônes
+     restent.
    - **Toujours rien dans le menu ?** (Un autre programme, par exemple VS Code ou PowerShell 7, a pris la
      main sur les fichiers `.ps1`.) Ouvrir le menu Démarrer, taper **Windows PowerShell** et l'ouvrir.
      Taper `powershell -ExecutionPolicy Bypass -File ` (avec une espace à la fin), glisser
      `hostd-traffic-tray.ps1` dans la fenêtre pour coller son chemin, puis appuyer sur Entrée.
+     Cette fenêtre-là reste ouverte : **la réduire, sans la fermer** (la fermer ferme aussi les icônes).
 
-   **B. Le `.bat` (aucune fenêtre ne reste ouverte) :** double-cliquer sur **`hostd-traffic-tray.bat`**.
+   **B. Le `.bat` :** double-cliquer sur **`hostd-traffic-tray.bat`**.
    Certains antivirus bloquent les lanceurs `.bat` (voir *Limites connues*) : dans ce cas, utiliser A.
 3. Taper le mot de passe de l'interface hostd. Les deux icônes apparaissent près de l'horloge.
 4. Clic droit sur une icône → **Période** pour choisir entre aujourd'hui, les 24 dernières heures et la

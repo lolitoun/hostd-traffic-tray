@@ -65,8 +65,8 @@ an SMB server for Sia), who reviewed the code and pointed them out.
   replacing the one you have.
 - **The script is not code-signed.** A self-signed certificate would only be trusted on the author's PC,
   and a public one costs money every year. The code is short and readable instead: please review it.
-- **Windows Terminal.** If Windows Terminal is your default terminal, the `.bat` may leave a minimized
-  PowerShell window in the taskbar. Leave it there: closing it also closes the icons.
+- **Windows Terminal.** If Windows Terminal is your default terminal, a PowerShell window may stay in
+  the taskbar. Minimize it and leave it there: closing it also closes the icons.
 
 ## Requirements
 
@@ -86,13 +86,14 @@ an SMB server for Sia), who reviewed the code and pointed them out.
      (or hold **Shift** while you right-click).
    - If PowerShell asks about changing the *execution policy*, type `Y` then Enter: it only applies to
      that window.
-   - A PowerShell window stays open: **minimize it, don't close it** (closing it closes the icons).
+   - A PowerShell window flashes, then hides itself: only the two icons stay.
    - **Still not in the menu?** (Another app, e.g. VS Code or PowerShell 7, took over `.ps1` files.)
      Open the Start menu, type **Windows PowerShell** and open it. Type
      `powershell -ExecutionPolicy Bypass -File ` (with a space at the end), drag
      `hostd-traffic-tray.ps1` into the window to paste its path, then press Enter.
+     That window stays open: **minimize it, don't close it** (closing it closes the icons).
 
-   **B. The `.bat` (no window left open):** double-click **`hostd-traffic-tray.bat`**.
+   **B. The `.bat`:** double-click **`hostd-traffic-tray.bat`**.
    Some antivirus products flag `.bat` launchers (see *Known limitations*): if yours does, use A.
 3. Enter your hostd UI password. The two icons appear next to the clock.
 4. Right-click an icon → **Period** to switch between today, the last 24 hours and the last hour.
