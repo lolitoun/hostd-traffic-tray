@@ -32,6 +32,25 @@ It's one short PowerShell file you can read in a few minutes, and that's the poi
 - **No install, no admin rights**, nothing added to Windows startup. Quit from the icon menu and it's gone.
 - **Light on the host:** 2 small API calls per minute (the hostd UI itself does much more when open).
 
+## Known limitations
+
+These are general trade-offs of any tool of this kind, not hidden behavior. Thanks to the developer who
+reviewed the code and pointed them out.
+
+- **The password stays in memory while the script runs.** To query hostd every minute, the script keeps
+  the Basic Auth header in RAM until you quit. It is never written to disk, but a process with
+  administrator or debugging rights on the same PC could read it. Such a process could also read hostd's
+  own memory (including your wallet seed), so the script adds practically no extra risk.
+- **Local traffic is plain HTTP.** hostd's UI is served over `http://`, so the password is sent
+  unencrypted, but only over the loopback interface (`127.0.0.1`): it never leaves your PC. Your browser
+  does exactly the same when you open the hostd UI.
+- **`-ExecutionPolicy Bypass`.** The `.bat` uses it so Windows lets the script run. It applies only to
+  that one PowerShell process and does not change your system settings (Microsoft notes the execution
+  policy is not a security boundary). The script never updates itself: read any new version before
+  replacing the one you have.
+- **The script is not code-signed.** A self-signed certificate would only be trusted on the author's PC,
+  and a public one costs money every year. The code is short and readable instead: please review it.
+
 ## Requirements
 
 - Windows 10 or 11 (Windows PowerShell 5.1, built in)
@@ -107,6 +126,27 @@ C'est un seul petit fichier PowerShell, lisible en quelques minutes : c'est just
   « Quitter » depuis le menu de l'icône, et il n'en reste rien.
 - **Léger pour l'hôte :** 2 petites requêtes à l'API par minute (l'interface hostd en fait bien plus
   quand elle est ouverte).
+
+### Limites connues
+
+Ce sont des compromis généraux, communs à tous les outils de ce type, et pas un comportement caché.
+Merci au développeur qui a relu le code et les a signalés.
+
+- **Le mot de passe reste en mémoire pendant que le script tourne.** Pour interroger hostd chaque minute,
+  le script garde l'en-tête d'authentification en RAM jusqu'à ce qu'on le quitte. Il n'est jamais écrit
+  sur le disque, mais un programme ayant les droits administrateur ou de débogage sur le même PC pourrait
+  le lire. Un tel programme pourrait aussi lire la mémoire de hostd lui-même (y compris la graine du
+  portefeuille) : le script n'ajoute donc pratiquement aucun risque.
+- **Le trafic local est en HTTP non chiffré.** L'interface hostd est servie en `http://`, donc le mot de
+  passe circule en clair, mais uniquement sur la boucle locale (`127.0.0.1`) : il ne sort jamais du PC.
+  Le navigateur fait exactement la même chose quand on ouvre l'interface hostd.
+- **`-ExecutionPolicy Bypass`.** Le `.bat` l'utilise pour que Windows accepte de lancer le script. Cette
+  option ne s'applique qu'à ce lancement de PowerShell et ne modifie pas les réglages du système
+  (Microsoft précise que la stratégie d'exécution n'est pas une barrière de sécurité). Le script ne se
+  met jamais à jour tout seul : relire toute nouvelle version avant de remplacer la sienne.
+- **Le script n'est pas signé numériquement.** Un certificat « maison » ne serait reconnu que sur le PC
+  de l'auteur, et un certificat public coûte de l'argent chaque année. À la place, le code est court et
+  lisible : n'hésitez pas à le relire.
 
 ### Prérequis
 
