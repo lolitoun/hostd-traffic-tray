@@ -5,6 +5,10 @@
 The hostd web UI only shows bandwidth for finished days. This small script shows what your Sia host has
 **sent** and **received since midnight**, as two tray icons that refresh every minute.
 
+![The two icons in the Windows taskbar, next to the clock](docs/taskbar.png)
+
+*In the taskbar: 92 GB received (pink) and 42 GB sent (blue) since midnight.*
+
 ![Tray icons preview](docs/icons-preview.png)
 
 | Icon | Meaning |
@@ -70,6 +74,10 @@ Not affiliated with the Sia Foundation. MIT licensed.
 L'interface web de hostd n'affiche la bande passante que pour les journées terminées. Ce petit script
 affiche ce que ton hôte Sia a **envoyé** et **reçu depuis minuit**, sous forme de deux icônes près de
 l'horloge, mises à jour chaque minute.
+
+![Les deux icônes dans la barre des tâches Windows, près de l'horloge](docs/taskbar.png)
+
+*Dans la barre des tâches : 92 GB reçus (rose) et 42 GB envoyés (bleu) depuis minuit.*
 
 ![Aperçu des icônes](docs/icons-preview.png)
 
