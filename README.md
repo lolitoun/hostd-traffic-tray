@@ -81,6 +81,7 @@ l'horloge, mises à jour chaque minute.
 Mêmes unités que l'interface hostd (GB / TB décimaux). L'icône affiche `3.2`, `39`, `386` (GB), puis `1.3T` (TB).
 Passer la souris sur une icône donne la valeur exacte (ex. `Envoyé aujourd'hui : 386.42 GB (14:35)`).
 Clic droit : **Actualiser** / **Quitter**.
+(L'interface est en anglais par défaut : `Sent today`, `Refresh`, `Quit`. Voir *Options* pour le français.)
 Si hostd ne répond pas, les deux icônes deviennent grises avec un `!`.
 
 ### Est-ce sûr ?
