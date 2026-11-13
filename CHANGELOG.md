@@ -7,9 +7,9 @@ MAJOR.MINOR.PATCH (breaking change . new feature . bug fix).
 
 ### Added
 - **Period choice** (suggested by larsfloe): right-click → *Period* → *Today (00:00 - 23:59)* (default) /
-  *Last 24 hours* / *Last hour*. `$Periode` sets the one used at startup. The tooltip shows the period.
+  *Last 24 hours* / *Last hour*. `$Period` sets the one used at startup. The tooltip shows the period.
 - Version number at the top of the right-click menu.
-- `$api` can point to another host (e.g. a Docker container); the README explains the plain-HTTP trade-off.
+- `$Api` can point to another host (e.g. a Docker container); the README explains the plain-HTTP trade-off.
 - French README in its own file: `README.fr.md`.
 
 ### Changed
@@ -18,6 +18,11 @@ MAJOR.MINOR.PATCH (breaking change . new feature . bug fix).
   PowerShell starts minimized and the script hides its own console window (`-HideConsole`), which
   antivirus products are less likely to flag as malware.
 - Tooltips: `Sent today` / `Sent (last 24 h)` / `Sent (last hour)`.
+- **Script in English only**, with a short header (the details are in the READMEs). Settings renamed:
+  `$api` → `$Api`, `$intervalle` → `$Interval`, `$Langue` → `$Language`; the test switch `-TestRendu`
+  → `-TestRender`. The French UI (`$Language = 'fr'`) is unchanged.
+- README: two ways to start, **right-click → Run with PowerShell** (no `.bat` needed, with help when
+  the menu entry is missing) or the `.bat`.
 
 ### Docs
 - README: new *Known limitations* items about antivirus quarantine (0-byte, undeletable files) and

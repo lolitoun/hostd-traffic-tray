@@ -36,7 +36,7 @@ C'est un seul petit fichier PowerShell, lisible en quelques minutes : c'est just
   (`http://127.0.0.1:9980` par défaut). Il ne modifie aucun réglage, ne touche jamais au portefeuille et
   n'envoie rien ailleurs.
 - **Il n'écrit, ne supprime et ne verrouille aucun fichier.** (Le seul fichier qu'il peut écrire est un
-  aperçu des icônes, avec l'option `-TestRendu`, qu'il faut lancer exprès.)
+  aperçu des icônes, avec l'option `-TestRender`, qu'il faut lancer exprès.)
 - **Aucun accès réseau en dehors de l'API hostd.** Pas de télémétrie, pas de mise à jour automatique,
   pas de téléchargement.
 - **Le mot de passe de l'interface hostd** est tapé dans une petite fenêtre masquée au démarrage, gardé
@@ -59,7 +59,8 @@ signalés.
   plus être supprimés, ils ont été mis en quarantaine : regarder l'historique de l'antivirus (Windows :
   *Sécurité Windows → Protection contre les virus et menaces → Historique de protection*), puis redémarrer
   pour pouvoir les supprimer. Depuis la v1.1.0, le lanceur est plus simple pour limiter ce risque.
-  On peut aussi se passer du `.bat` : clic droit sur le `.ps1` → **Exécuter avec PowerShell**.
+  On peut aussi se passer complètement du `.bat` : voir *Utilisation*, méthode A (clic droit →
+  **Exécuter avec PowerShell**).
 - **Le mot de passe reste en mémoire pendant que le script tourne.** Pour interroger hostd chaque minute,
   le script garde l'en-tête d'authentification en RAM jusqu'à ce qu'on le quitte. Il n'est jamais écrit
   sur le disque, mais un programme ayant les droits administrateur ou de débogage sur le même PC pourrait
@@ -67,7 +68,7 @@ signalés.
   portefeuille) : le script n'ajoute donc pratiquement aucun risque.
 - **L'API de hostd est en HTTP non chiffré.** L'interface hostd est servie en `http://`, donc le mot de
   passe circule en clair. Avec `127.0.0.1` (par défaut), il passe uniquement par la boucle locale et ne
-  sort jamais du PC, exactement comme avec le navigateur quand on ouvre l'interface hostd. Si `$api`
+  sort jamais du PC, exactement comme avec le navigateur quand on ouvre l'interface hostd. Si `$Api`
   pointe vers une autre machine ou un conteneur, il circule sur le réseau local.
 - **`-ExecutionPolicy Bypass`.** Le `.bat` l'utilise pour que Windows accepte de lancer le script. Cette
   option ne s'applique qu'à ce lancement de PowerShell et ne modifie pas les réglages du système
@@ -76,8 +77,8 @@ signalés.
 - **Le script n'est pas signé numériquement.** Un certificat « maison » ne serait reconnu que sur le PC
   de l'auteur, et un certificat public coûte de l'argent chaque année. À la place, le code est court et
   lisible : n'hésitez pas à le relire.
-- **Windows Terminal.** Si Windows Terminal est le terminal par défaut, une fenêtre PowerShell réduite
-  peut rester dans la barre des tâches. La laisser : la fermer ferme aussi les icônes.
+- **Windows Terminal.** Si Windows Terminal est le terminal par défaut, le `.bat` peut laisser une
+  fenêtre PowerShell réduite dans la barre des tâches. La laisser : la fermer ferme aussi les icônes.
 
 ## Prérequis
 
@@ -86,15 +87,31 @@ signalés.
 
 ## Utilisation
 
-1. Télécharger `hostd-traffic-tray.ps1` et `hostd-traffic-tray.bat` depuis la
+1. Télécharger `hostd-traffic-tray.ps1` (et, si on le souhaite, `hostd-traffic-tray.bat`) depuis la
    [dernière release](https://github.com/lolitoun/hostd-traffic-tray/releases/latest) et les mettre
    **dans le même dossier**.
-2. Double-cliquer sur **`hostd-traffic-tray.bat`**.
+2. Lancer le script, au choix :
+
+   **A. Clic droit (le plus simple, sans le `.bat`) :** clic droit sur `hostd-traffic-tray.ps1` →
+   **Exécuter avec PowerShell**.
+   - **Windows 11 :** si la ligne n'apparaît pas, cliquer d'abord sur **Afficher d'autres options**
+     (ou maintenir **Maj** pendant le clic droit).
+   - Si PowerShell demande de modifier la *stratégie d'exécution*, taper `O` (ou `Y` sur un Windows en
+     anglais) puis Entrée : cela ne vaut que pour cette fenêtre.
+   - Une fenêtre PowerShell reste ouverte : **la réduire, sans la fermer** (la fermer ferme aussi les
+     icônes).
+   - **Toujours rien dans le menu ?** (Un autre programme, par exemple VS Code ou PowerShell 7, a pris la
+     main sur les fichiers `.ps1`.) Ouvrir le menu Démarrer, taper **Windows PowerShell** et l'ouvrir.
+     Taper `powershell -ExecutionPolicy Bypass -File ` (avec une espace à la fin), glisser
+     `hostd-traffic-tray.ps1` dans la fenêtre pour coller son chemin, puis appuyer sur Entrée.
+
+   **B. Le `.bat` (aucune fenêtre ne reste ouverte) :** double-cliquer sur **`hostd-traffic-tray.bat`**.
+   Certains antivirus bloquent les lanceurs `.bat` (voir *Limites connues*) : dans ce cas, utiliser A.
 3. Taper le mot de passe de l'interface hostd. Les deux icônes apparaissent près de l'horloge.
 4. Clic droit sur une icône → **Période** pour choisir entre aujourd'hui, les 24 dernières heures et la
    dernière heure.
 
-Après un redémarrage : lancer d'abord hostd, puis de nouveau le `.bat`.
+Après un redémarrage : lancer d'abord hostd, puis de nouveau le script.
 
 **Icônes masquées ?** Paramètres → Personnalisation → Barre des tâches → *Autres icônes de barre d'état
 système* → activer **Windows PowerShell**.
@@ -103,13 +120,13 @@ système* → activer **Windows PowerShell**.
 
 ## Options
 
-En haut du script :
+Dans le bloc *Settings*, en haut du script (les commentaires du script sont en anglais) :
 
-- `$api = 'http://127.0.0.1:9980/api'` : l'API hostd. Changer le port si besoin, ou l'hôte si hostd tourne
+- `$Api = 'http://127.0.0.1:9980/api'` : l'API hostd. Changer le port si besoin, ou l'hôte si hostd tourne
   ailleurs (ex. `http://hostd:9980/api` pour un conteneur Docker ; voir *Limites connues* au sujet du HTTP)
-- `$intervalle = 60000` : intervalle de mise à jour, en millisecondes
-- `$Periode = 'today'` : période au démarrage, `'today'` (00:00 - 23:59, par défaut), `'24h'` ou `'1h'`
-- `$Langue = 'en'` : langue de l'interface, `'en'` (anglais, par défaut), `'fr'` (français) ou `'auto'`
+- `$Interval = 60000` : intervalle de mise à jour, en millisecondes
+- `$Period = 'today'` : période au démarrage, `'today'` (00:00 - 23:59, par défaut), `'24h'` ou `'1h'`
+- `$Language = 'en'` : langue de l'interface, `'en'` (anglais, par défaut), `'fr'` (français) ou `'auto'`
   (suit la langue de Windows)
 
 ## Comment ça marche
