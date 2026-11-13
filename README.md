@@ -65,20 +65,71 @@ Not affiliated with the Sia Foundation. MIT licensed.
 
 ## 🇫🇷 En français
 
-**Le trafic hostd du jour, juste à côté de l'horloge Windows.**
+**Le trafic [hostd](https://github.com/SiaFoundation/hostd) du jour, juste à côté de l'horloge Windows.**
 
 L'interface web de hostd n'affiche la bande passante que pour les journées terminées. Ce petit script
 affiche ce que ton hôte Sia a **envoyé** et **reçu depuis minuit**, sous forme de deux icônes près de
 l'horloge, mises à jour chaque minute.
 
-- 🟦 **bleue** : envoyé aujourd'hui (egress, ce que les clients téléchargent)
-- 🟪 **rose** : reçu aujourd'hui (ingress, ce que les clients déposent)
+![Aperçu des icônes](docs/icons-preview.png)
 
-Mêmes unités que l'interface hostd (GB / TB). Survol = valeur exacte. Clic droit : *Refresh* / *Quit*.
+| Icône | Signification |
+|---|---|
+| 🟦 bleue | **Envoyé aujourd'hui** (egress : ce que les clients téléchargent) |
+| 🟪 rose | **Reçu aujourd'hui** (ingress : ce que les clients déposent) |
 
-**Sécurité :** lecture seule, uniquement l'API locale de hostd (`127.0.0.1`), aucun envoi ailleurs,
-mot de passe gardé en mémoire et jamais enregistré, aucune installation ni droit administrateur.
+Mêmes unités que l'interface hostd (GB / TB décimaux). L'icône affiche `3.2`, `39`, `386` (GB), puis `1.3T` (TB).
+Passer la souris sur une icône donne la valeur exacte (ex. `Envoyé aujourd'hui : 386.42 GB (14:35)`).
+Clic droit : **Actualiser** / **Quitter**.
+Si hostd ne répond pas, les deux icônes deviennent grises avec un `!`.
 
-**Utilisation :** mettre `hostd-traffic-tray.ps1` et `hostd-traffic-tray.bat` dans le même dossier,
-double-cliquer sur le `.bat`, taper le mot de passe de l'interface hostd.
-Pour l'interface en français : mettre `$Langue = 'fr'` en haut du script.
+### Est-ce sûr ?
+
+C'est un seul petit fichier PowerShell, lisible en quelques minutes : c'est justement la raison de ce dépôt.
+
+- **Lecture seule.** Il appelle uniquement `GET /api/metrics` sur l'API **locale** de hostd
+  (`http://127.0.0.1:9980`). Il ne modifie aucun réglage, ne touche jamais au portefeuille et n'envoie
+  rien ailleurs.
+- **Aucun accès réseau en dehors de `127.0.0.1`.** Pas de télémétrie, pas de mise à jour automatique,
+  pas de téléchargement.
+- **Le mot de passe de l'interface hostd** est tapé dans une petite fenêtre masquée au démarrage, gardé
+  en mémoire uniquement et **jamais écrit sur le disque**.
+- **Aucune installation, aucun droit administrateur**, rien n'est ajouté au démarrage de Windows.
+  « Quitter » depuis le menu de l'icône, et il n'en reste rien.
+- **Léger pour l'hôte :** 2 petites requêtes à l'API par minute (l'interface hostd en fait bien plus
+  quand elle est ouverte).
+
+### Prérequis
+
+- Windows 10 ou 11 (Windows PowerShell 5.1, déjà intégré)
+- hostd qui tourne sur la **même machine**, interface sur `http://127.0.0.1:9980` (valeur par défaut)
+
+### Utilisation
+
+1. Télécharger `hostd-traffic-tray.ps1` et `hostd-traffic-tray.bat` et les mettre **dans le même dossier**.
+2. Double-cliquer sur **`hostd-traffic-tray.bat`**.
+3. Taper le mot de passe de l'interface hostd. Les deux icônes apparaissent près de l'horloge.
+
+Après un redémarrage : lancer d'abord hostd, puis de nouveau le `.bat`.
+
+**Icônes masquées ?** Paramètres → Personnalisation → Barre des tâches → *Autres icônes de barre d'état
+système* → activer **Windows PowerShell**.
+
+**Windows bloque le fichier ?** Clic droit sur le `.ps1` téléchargé → Propriétés → cocher **Débloquer** → OK.
+
+### Options
+
+En haut du script :
+
+- `$Langue = 'en'` : langue de l'interface, `'en'` (anglais, par défaut), `'fr'` (français) ou `'auto'`
+  (suit la langue de Windows)
+- `$intervalle = 60000` : intervalle de mise à jour, en millisecondes
+- `$api = 'http://127.0.0.1:9980/api'` : à changer si l'interface hostd utilise un autre port
+
+### Comment ça marche
+
+Les statistiques de hostd sont des compteurs cumulés. Le script demande à hostd ses statistiques
+**maintenant** et **à minuit (heure locale)** (`GET /api/metrics?timestamp=...`), puis affiche la
+différence de `data.rhp.egress` et `data.rhp.ingress`.
+
+Sans lien avec la Sia Foundation. Licence MIT.
