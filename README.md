@@ -34,8 +34,9 @@ It's one short PowerShell file you can read in a few minutes, and that's the poi
 
 ## Known limitations
 
-These are general trade-offs of any tool of this kind, not hidden behavior. Thanks to **Mike76**, the
-developer who reviewed the code and pointed them out.
+These are general trade-offs of any tool of this kind, not hidden behavior. Thanks to
+**[Mike76](https://github.com/mike76-dev)** (author of [sombrero](https://github.com/mike76-dev/sombrero),
+an SMB server for Sia), who reviewed the code and pointed them out.
 
 - **The password stays in memory while the script runs.** To query hostd every minute, the script keeps
   the Basic Auth header in RAM until you quit. It is never written to disk, but a process with
@@ -130,7 +131,9 @@ C'est un seul petit fichier PowerShell, lisible en quelques minutes : c'est just
 ### Limites connues
 
 Ce sont des compromis généraux, communs à tous les outils de ce type, et pas un comportement caché.
-Merci à **Mike76**, le développeur qui a relu le code et les a signalés.
+Merci à **[Mike76](https://github.com/mike76-dev)** (auteur de
+[sombrero](https://github.com/mike76-dev/sombrero), un serveur SMB pour Sia), qui a relu le code et les a
+signalés.
 
 - **Le mot de passe reste en mémoire pendant que le script tourne.** Pour interroger hostd chaque minute,
   le script garde l'en-tête d'authentification en RAM jusqu'à ce qu'on le quitte. Il n'est jamais écrit
